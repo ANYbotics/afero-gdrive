@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/jwt"
+	"golang.org/x/oauth2/google"
 )
 
 // AuthenticateFunc defines the signature of the authentication function used
@@ -26,6 +28,10 @@ type Auth struct {
 	ClientID     string
 	ClientSecret string
 	Authenticate AuthenticateFunc
+	// Service account and private key.
+	// Alternative tot the ClientID and ClientSecret approach.
+	ServiceAccountEmail string
+	ServiceAccountKey string
 }
 
 // NewHTTPClient instantiates a new authentication client
@@ -33,6 +39,17 @@ func (auth *Auth) NewHTTPClient(ctx context.Context, scopes ...string) (*http.Cl
 	// If no scope has been specified, it shall only be the drive API one
 	if len(scopes) == 0 {
 		scopes = []string{"https://www.googleapis.com/auth/drive"}
+	}
+
+	// Service account gets precedence.
+	if auth.ServiceAccountEmail != "" {
+		config := &jwt.Config{
+				Scopes: scopes,
+				Email: auth.ServiceAccountEmail,
+				PrivateKey: []byte(auth.ServiceAccountKey),
+				TokenURL: google.JWTTokenURL,
+		}
+		return config.Client(ctx), nil
 	}
 
 	config := &oauth2.Config{

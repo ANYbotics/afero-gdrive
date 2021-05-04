@@ -25,8 +25,8 @@ import (
 	"golang.org/x/oauth2"
 	"google.golang.org/api/googleapi"
 
-	"github.com/fclairamb/afero-gdrive/log/gokit"
-	"github.com/fclairamb/afero-gdrive/oauthhelper"
+	"github.com/anybotics/afero-gdrive/log/gokit"
+	"github.com/anybotics/afero-gdrive/oauthhelper"
 )
 
 var (

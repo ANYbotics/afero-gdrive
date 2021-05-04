@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fclairamb/afero-gdrive/oauthhelper"
+	"github.com/anybotics/afero-gdrive/oauthhelper"
 )
 
 func main() {

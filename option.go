@@ -10,3 +10,12 @@ func RootDirectory(path string) Option {
 		return err
 	}
 }
+
+// Sets the drive to act on
+func RootDrive(drive string, path string) Option {
+	return func(driver *GDriver) error {
+		driver.SetDrive(drive)
+		_, err := driver.SetRootDirectory(path)
+		return err
+	}
+}
